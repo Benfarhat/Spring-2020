@@ -2,18 +2,19 @@ package ca.benfarhat.restapi.model;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * Entité <b>Salle</b>, relative aux salles d'enseignement
@@ -34,25 +35,58 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Builder
 @Entity
 @Table(name = "classes")
-public class Salle {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-	private Long id;
-
-    @NotNull
-    @Column(name = "nom")
-	private String name;
+public class Salle extends AbstractEntity{
     
     @Column(name = "currentProfessorId")
-	private Long CurrentProfesseurId;
+	private Long professeur;
     
+    @Column(name = "listProfessorId")
+    @ElementCollection(targetClass=Long.class, fetch = FetchType.EAGER)
+	private List<Long> professeurs;
 
-    @Column(name = "lastProfessorId")
-	private Long LastProfesseurId;
+	public Long getProfesseur() {
+		return professeur;
+	}
+
+	public void setProfesseur(Long professeur) {
+		this.professeur = professeur;
+	}
+
+	public List<Long> getProfesseurs() {
+		return professeurs;
+	}
+
+	public void setProfesseurs(List<Long> professeurs) {
+		this.professeurs = professeurs;
+	}
+	
+	public Salle copy(Salle salle) {
+		this.name = salle.getName();
+		this.professeur = salle.getProfesseur();
+		this.professeurs = salle.getProfesseurs();
+		return this;	
+	}
+
+	public Salle(String name) {
+		super();
+		this.name = name;
+		this.professeur = null;
+		this.professeurs = new ArrayList<>();
+	}
+	
+	public Salle(String name, Long professeur, List<Long> professeurs) {
+		super();
+		this.name = name;
+		this.professeur = professeur;
+		this.professeurs = professeurs;
+	}
+
+	public Salle() {
+		super();
+	}
+	
 
 }

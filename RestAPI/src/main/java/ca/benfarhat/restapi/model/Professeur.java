@@ -2,16 +2,11 @@ package ca.benfarhat.restapi.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * Entité <b>Professeur</b>
@@ -31,21 +26,19 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name = "professor")
-public class Professeur {
-		
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-	private Long id;
-
-    @NotNull
-    @Column(name = "nom")
-	private String name;
+public class Professeur extends AbstractEntity{
 
     @Column(name = "lastProfessorId")
-	private Long LastSalleId;
+	private Long lastSalleId;
+
+	public Long getLastSalleId() {
+		return lastSalleId;
+	}
+
+	public void setLastSalleId(Long lastSalleId) {
+		this.lastSalleId = lastSalleId;
+	}
 
 }
