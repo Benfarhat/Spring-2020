@@ -2,6 +2,7 @@ package ca.benfarhat.restapi.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import ca.benfarhat.restapi.exception.ProfesseurException;
 import ca.benfarhat.restapi.exception.SalleException;
 import ca.benfarhat.restapi.model.Professeur;
+import ca.benfarhat.restapi.model.Salle;
 import ca.benfarhat.restapi.repository.ProfesseurRepository;
+import ca.benfarhat.restapi.repository.SalleRepository;
 
 @Service
 public class ProfesseurService implements IGenericService<Professeur, ProfesseurException, SalleException>{
@@ -18,7 +21,7 @@ public class ProfesseurService implements IGenericService<Professeur, Professeur
 	ProfesseurRepository professeurRepository;
 
 	@Autowired
-	SalleService salleService;
+	SalleRepository salleRepository;
 
 	@Override
 	public Long ajouter(Professeur professeur) {
@@ -62,7 +65,15 @@ public class ProfesseurService implements IGenericService<Professeur, Professeur
 		Professeur professeur = findById(professeurId);
 		professeur.setLastSalleId(salleId);
 		editer(professeur);
-		salleService.reserver(salleId, professeurId);
+		
+		if(!Objects.isNull(salleId)) {
+			Salle salle = salleRepository.findById(salleId).orElse(null);
+			if(!Objects.isNull(salle)) {
+				salle.setProfesseur(professeurId);
+				salleRepository.saveAndFlush(salle);
+			}
+		}
+	
 	}
 
 	@Override
@@ -73,7 +84,7 @@ public class ProfesseurService implements IGenericService<Professeur, Professeur
 
 	@Override
 	public boolean libre(Long professeurId) throws ProfesseurException {
-		return findById(professeurId).getLastSalleId() == null;
+		return Objects.isNull(findById(professeurId).getLastSalleId());
 	}
 
 	@Override
