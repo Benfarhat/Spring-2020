@@ -57,9 +57,6 @@ class SalleServiceTest {
 			listId.add(s.getId());
 			listName.add(s.getName());
 		});
-		listName.stream().forEach(s -> {
-			System.out.println(salleRepository.findByName(s));
-		});
 		
 	}
 	
@@ -125,7 +122,6 @@ class SalleServiceTest {
 	void testFindById() throws SalleException {
 		Long id = salles.get(0).getId();
 		assertThat(salleService.findById(id)).isNotNull();
-		salles.stream().forEach(s -> System.out.println(s.getId()));
 		
 		salles.stream().map(Salle::getId).forEach(
 				index -> assertThatCode(() -> salleService.findById(index)).doesNotThrowAnyException());
@@ -167,6 +163,7 @@ class SalleServiceTest {
 
 	@Test
 	void testLiberer() throws SalleException, ProfesseurException {
+		assertThat(salleService.libre(listId.get(8))).isFalse();
 		assertThat(salleService.libre(listId.get(9))).isTrue();
 		salleService.reserver(listId.get(9), 16L);
 		assertThat(salleService.libre(listId.get(9))).isFalse();

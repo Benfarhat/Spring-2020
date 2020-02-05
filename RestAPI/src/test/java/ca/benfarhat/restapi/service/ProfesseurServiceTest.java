@@ -34,7 +34,7 @@ class ProfesseurServiceTest {
 	
 	@Autowired
 	SalleRepository salleRepository;
-	
+
 	@Autowired
 	ProfesseurService professeurService;
 
@@ -42,6 +42,8 @@ class ProfesseurServiceTest {
 	private List<Salle> salles = new ArrayList<>();
 	private List<Long> listId = new ArrayList<>();
 	private List<String> listName = new ArrayList<>();
+	private List<Long> listIdP = new ArrayList<>();
+	private List<String> listNameP = new ArrayList<>();
 	
 	@BeforeEach
 	void setup() throws Exception {
@@ -63,9 +65,7 @@ class ProfesseurServiceTest {
 			listId.add(s.getId());
 			listName.add(s.getName());
 		});
-		listName.stream().forEach(s -> {
-			System.out.println(professeurRepository.findByName(s));
-		});
+
 		
 
 		for(int i = 1; i <= 100; i++) {
@@ -80,6 +80,11 @@ class ProfesseurServiceTest {
 		}
 		
 		salleRepository.saveAll(salles);
+		salles = salleRepository.findAll();
+		salles.stream().forEach(s -> {
+			listIdP.add(s.getId());
+			listNameP.add(s.getName());
+		});
 		
 
 		
@@ -149,7 +154,6 @@ class ProfesseurServiceTest {
 	void testFindById() throws ProfesseurException {
 		Long id = professeurs.get(0).getId();
 		assertThat(professeurService.findById(id)).isNotNull();
-		professeurs.stream().forEach(s -> System.out.println(s.getId()));
 		
 		professeurs.stream().map(Professeur::getId).forEach(
 				index -> assertThatCode(() -> professeurService.findById(index)).doesNotThrowAnyException());
@@ -170,29 +174,30 @@ class ProfesseurServiceTest {
 
 	@Test
 	void testReserver() throws ProfesseurException, SalleException {
-		professeurService.reserver(listId.get(50), 16L);
-		assertThat(professeurService.findById(listId.get(50)).getLastSalleId()).isEqualTo(16L);
+		professeurService.reserver(listId.get(50), listIdP.get(16));
+		assertThat(professeurService.findById(listId.get(50)).getLastSalleId()).isEqualTo(listIdP.get(16));
 	}
 
 	@Test
 	void testVerifier() throws ProfesseurException, SalleException {
-		professeurService.reserver(listId.get(50), 51L);
-		assertThat(professeurService.verifier(listId.get(50), 51L)).isTrue();
-		assertThat(professeurService.verifier(listId.get(51), 51L)).isFalse();
-		assertThat(professeurService.verifier(listId.get(50), 50L)).isFalse();
+		professeurService.reserver(listId.get(50), listIdP.get(51));
+		assertThat(professeurService.verifier(listId.get(50), listIdP.get(51))).isTrue();
+		assertThat(professeurService.verifier(listId.get(51), listIdP.get(51))).isFalse();
+		assertThat(professeurService.verifier(listId.get(50), listIdP.get(50))).isFalse();
 	}
 
 	@Test
 	void testLibre() throws ProfesseurException, SalleException {
 		assertThat(professeurService.libre(listId.get(4))).isTrue();
-		professeurService.reserver(listId.get(4), 16L);
+		professeurService.reserver(listId.get(4), listIdP.get(16));
 		assertThat(professeurService.libre(listId.get(4))).isFalse();
 	}
 
 	@Test
 	void testLiberer() throws ProfesseurException, SalleException {
+		assertThat(professeurService.libre(listId.get(8))).isFalse();
 		assertThat(professeurService.libre(listId.get(9))).isTrue();
-		professeurService.reserver(listId.get(9), 16L);
+		professeurService.reserver(listId.get(9), listIdP.get(16));
 		assertThat(professeurService.libre(listId.get(9))).isFalse();
 		professeurService.liberer(listId.get(9));
 		assertThat(professeurService.libre(listId.get(9))).isTrue();
