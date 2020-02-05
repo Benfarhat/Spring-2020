@@ -41,4 +41,15 @@ public class Professeur extends AbstractEntity{
 		this.lastSalleId = lastSalleId;
 	}
 
+	public Professeur(String name) {
+		super();
+		this.name = name;
+	}
+
+	public Professeur() {
+		super();
+	}
+	
+	
+
 }

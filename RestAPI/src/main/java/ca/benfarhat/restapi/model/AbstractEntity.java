@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 
@@ -31,10 +32,14 @@ public class AbstractEntity {
 	@Column(name = "id")
 	protected Long id;
 
-	@NaturalId
+	@NaturalId // immutable
 	@NotNull
 	@Column(name = "nom", nullable = false)
 	protected String name;
+
+	@Lob
+	@Column(name = "description", nullable = true)
+	protected String description;
 
 	public Long getId() {
 		return id;
@@ -51,5 +56,14 @@ public class AbstractEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	
 }

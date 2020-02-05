@@ -63,13 +63,6 @@ public class Salle extends AbstractEntity{
 		this.professeurs = professeurs;
 	}
 	
-	public Salle copy(Salle salle) {
-		this.name = salle.getName();
-		this.professeur = salle.getProfesseur();
-		this.professeurs = salle.getProfesseurs();
-		return this;	
-	}
-
 	public Salle(String name) {
 		super();
 		this.name = name;
@@ -83,10 +76,25 @@ public class Salle extends AbstractEntity{
 		this.professeur = professeur;
 		this.professeurs = professeurs;
 	}
+	
+	
+
+	public Salle(String name, String description, Long professeur, List<Long> professeurs) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.professeur = professeur;
+		this.professeurs = professeurs;
+	}
 
 	public Salle() {
 		super();
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Salle [id=" + id + ", name=" + name + ", description=" + description + ", professeur=" + professeur
+				+ "]";
+	}
 
 }

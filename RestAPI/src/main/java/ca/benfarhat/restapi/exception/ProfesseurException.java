@@ -6,7 +6,6 @@ public class ProfesseurException extends Exception{
 	
 	public ProfesseurException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public ProfesseurException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {

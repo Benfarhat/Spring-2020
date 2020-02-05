@@ -6,15 +6,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ca.benfarhat.restapi.exception.ProfesseurException;
 import ca.benfarhat.restapi.exception.SalleException;
 import ca.benfarhat.restapi.model.Salle;
 import ca.benfarhat.restapi.repository.SalleRepository;
 
 @Service
-public class SalleService implements ISalleService{
+public class SalleService implements IGenericService<Salle, SalleException, ProfesseurException>{
 	
 	@Autowired
 	SalleRepository salleRepository;
+	
+	@Autowired
+	ProfesseurService professeurService;
 
 	@Override
 	public Long ajouter(Salle salle) {
@@ -22,10 +26,8 @@ public class SalleService implements ISalleService{
 	}
 
 	@Override
-	public void editer(Long id, Salle salle) throws SalleException {
-		Salle salleAModifier = findById(id);
-		salleAModifier.copy(salle);
-		salleRepository.flush();
+	public void editer(Salle salle) throws SalleException {
+		salleRepository.saveAndFlush(salle);
 	}
 
 	@Override
@@ -56,10 +58,11 @@ public class SalleService implements ISalleService{
 	}
 
 	@Override
-	public void reserver(Long salleId, Long profid) throws SalleException {
+	public void reserver(Long salleId, Long profid) throws SalleException, ProfesseurException {
 		Salle salle = findById(salleId);
 		salle.setProfesseur(profid);
-		editer(salleId, salle);
+		editer(salle);
+		professeurService.reserver(profid, salleId);
 	}
 
 	@Override
@@ -74,7 +77,7 @@ public class SalleService implements ISalleService{
 	}
 
 	@Override
-	public void liberer(Long salleId) throws SalleException {
+	public void liberer(Long salleId) throws SalleException, ProfesseurException {
 		reserver(salleId, null);		
 	}
 
