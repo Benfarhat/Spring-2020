@@ -444,9 +444,11 @@
 		}
 
 		function connect() {
-			ws = new WebSocket('ws://localhost:8080/chat');
+			ws = new WebSocket('ws://localhost:8081/chat');
 			ws.onmessage = function(data) {
+				console.dir(data);
 				var json = JSON.parse(data.data)
+				console.dir(json);
 				addMessageInHtml(json);
 			}
 			setConnected(true);
@@ -468,7 +470,7 @@
 			ws.send(data);
 		}
 
-		function addMessageInHtml(message) {
+		function addMessageInHtml(json) {
 			$("#helloworldmessage").append(" " + json.message + "");
 		}
 

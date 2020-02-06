@@ -4,14 +4,14 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import ca.benfarhat.simple.websocket.handler.SocketTextHandler;
+import ca.benfarhat.simple.websocket.handler.SocketChatHandler;
 
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(new SocketTextHandler(), "/chat");
+		registry.addHandler(new SocketChatHandler(), "/chat");
 	}
 
 }

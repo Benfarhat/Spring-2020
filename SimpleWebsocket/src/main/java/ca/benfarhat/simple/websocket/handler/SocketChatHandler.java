@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ca.benfarhat.simple.websocket.model.ChatMessage;
 
 @Component
-public class SocketHandler extends TextWebSocketHandler {
+public class SocketChatHandler extends TextWebSocketHandler {
 
 	/*
 
@@ -31,8 +31,9 @@ public class SocketHandler extends TextWebSocketHandler {
 
 		String payload = message.getPayload();
 		JSONObject jsonObject = new JSONObject(payload);
+
         ObjectMapper Obj = new ObjectMapper();
-        
+  		/*      
         ChatMessage chatMessage = new ChatMessage(null, null, null);
   
         try { 
@@ -45,7 +46,9 @@ public class SocketHandler extends TextWebSocketHandler {
         catch (IOException e) { 
             e.printStackTrace(); 
         } 
-		session.sendMessage(new TextMessage(Obj.writeValueAsString(jsonObject)));
+        */
+		session.sendMessage(new TextMessage(payload));
+		//session.sendMessage(new TextMessage(Obj.writeValueAsString(jsonObject)));
 		//session.sendMessage(new TextMessage(jsonObject.get("message") + "\n"));
 	}
 
