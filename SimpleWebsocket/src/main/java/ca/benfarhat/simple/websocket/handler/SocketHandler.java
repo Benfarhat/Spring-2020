@@ -23,12 +23,7 @@ public class SocketHandler extends TextWebSocketHandler {
 	
 	*/
 	
-	private String salon = "DEFAUT";
 
-	public SocketHandler(String salon) {
-		super();
-		this.salon = salon;
-	}
 
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message)

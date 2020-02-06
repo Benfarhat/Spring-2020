@@ -444,10 +444,10 @@
 		}
 
 		function connect() {
-			ws = new WebSocket('ws://localhost:8080/user');
+			ws = new WebSocket('ws://localhost:8080/chat');
 			ws.onmessage = function(data) {
 				var json = JSON.parse(data.data)
-				addMessageInHtml(data.data);
+				addMessageInHtml(json);
 			}
 			setConnected(true);
 		}

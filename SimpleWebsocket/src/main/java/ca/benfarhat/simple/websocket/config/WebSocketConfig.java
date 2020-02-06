@@ -11,24 +11,7 @@ import ca.benfarhat.simple.websocket.handler.SocketTextHandler;
 public class WebSocketConfig implements WebSocketConfigurer {
 
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(new SocketTextHandler(), "/user");
+		registry.addHandler(new SocketTextHandler(), "/chat");
 	}
-	
-	public void registerWebSocketDevAHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(new SocketTextHandler(), "/deva");
-	}
-
-	public void registerWebSocketDevBHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(new SocketTextHandler(), "/devb");
-	}
-
-	public void registerWebSocketQaAHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(new SocketTextHandler(), "/qaa");
-	}
-
-	public void registerWebSocketQaBHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(new SocketTextHandler(), "/qab");
-	}
-	
 
 }
