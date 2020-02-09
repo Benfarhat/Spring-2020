@@ -54,7 +54,7 @@
 }
 
 .recent_heading h4 {
-	color: #0465ac;
+	color: #16a085;
     font-size: 16px;
     margin: auto;
     line-height: 29px;
@@ -126,16 +126,27 @@
 	border-bottom: 1px solid #ddd;
 	margin: 0;
 	padding: 18px 16px 10px;
+	background-color: #1abc9c;
+	color: #fff;
+} 
+.chat_list h5, .chat_list p, .chat_list {
+	color: #fff;
+}  
+.chat_list.selected {
+	border-bottom: 1px solid #ddd;
+	margin: 0;
+	padding: 18px 16px 10px;
+	background-color: #ebebeb;
 }
+.chat_list.selected h5, .chat_list.selected p, .chat_list.selected {
+	color: #333;
+}  
 
 .inbox_chat {
 	height: 550px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
-.active_chat {
-	background: #e8f6ff;
-}
 
 .incoming_msg_img {
 	display: inline-block;
@@ -155,8 +166,7 @@
 
 .received_withd_msg p {
 	background: #ebebeb none repeat scroll 0 0;
-	border-radius: 0 15px 15px 15px;
-	border-radius: 0 0 0 10px !important;
+	border-radius: 0 !important;
 	color: #646464;
 	font-size: 14px;
 	margin: 0;
@@ -182,7 +192,7 @@
 }
 
 .sent_msg p {
-	background:#0465ac;
+	background:#16a085;
 	border-radius: 12px 15px 15px 0;
 	border-radius: 0 !important;
 	font-size: 14px;
@@ -218,7 +228,7 @@
 }
 
 .msg_send_btn {
-	background: #05728f none repeat scroll 0 0;
+	background: #16a085 none repeat scroll 0 0;
 	border:none;
 	border-radius: 50%;
 	color: #fff;
@@ -270,124 +280,40 @@
 				</div>
 				
 				<div class="inbox_chat scroll">
-				
-					<div id="salonDevA" class="chat_list active_chat">
+					<div id="connect" class="chat_list selected">
 						<div class="chat_people">
 							<div class="chat_img">
-								<img src="https://ptetutorials.com/images/user-profile.png"
-									alt="sunil">
+								<i class="fa fa-play" aria-hidden="true"></i>
 							</div>
 							<div class="chat_ib">
 								<h5>
-									DEV A <span class="chat_date">5</span>
+									CONNEXION <span id="connected" class="connected"></span>
 								</h5>
-								<p>Serveur lxgep bla</p>
+								<p>Activer la connexion</p>
 							</div>
 						</div>
 					</div>
 				
-					<div id="salonDevB" class="chat_list active_chat">
+					<div id="disconnect" class="chat_list">
 						<div class="chat_people">
 							<div class="chat_img">
-								<img src="https://ptetutorials.com/images/user-profile.png"
-									alt="sunil">
+								<i class="fa fa-stop" aria-hidden="true"></i>
 							</div>
 							<div class="chat_ib">
 								<h5>
-									DEV B <span class="chat_date">5</span>
+									DECONNEXION
 								</h5>
-								<p>Serveur lxgep bla</p>
+								<p>Se deconnecter</p>
 							</div>
 						</div>
 					</div>
 
-					<div id="salonQaA" class="chat_list active_chat">
-						<div class="chat_people">
-							<div class="chat_img">
-								<img src="https://ptetutorials.com/images/user-profile.png"
-									alt="sunil">
-							</div>
-							<div class="chat_ib">
-								<h5>
-									QA A <span class="chat_date">5</span>
-								</h5>
-								<p>Serveur lxgep bla</p>
-							</div>
-						</div>
-					</div>
-
-					<div id="salonQaB" class="chat_list active_chat">
-						<div class="chat_people">
-							<div class="chat_img">
-								<img src="https://ptetutorials.com/images/user-profile.png"
-									alt="sunil">
-							</div>
-							<div class="chat_ib">
-								<h5>
-									QA B <span class="chat_date">5</span>
-								</h5>
-								<p>Serveur lxgep bla</p>
-							</div>
-						</div>
-						
-					</div>
 				</div>
 				
 			</div>
 			<!--  Fenetre de droite -->
 			<div class="mesgs">
 				<div id="content_msg" class="msg_history">
-				
-					<div class="incoming_msg">
-						<div class="incoming_msg_img">
-							<img src="https://ptetutorials.com/images/user-profile.png"
-								alt="sunil">
-						</div>
-						<div class="received_msg">
-							<div class="received_withd_msg">
-								<p>Test which is a new approach to have all solutions</p>
-								<span class="time_date"> 11:01 AM | June 9</span>
-							</div>
-						</div>
-					</div>
-					<div class="outgoing_msg">
-						<div class="sent_msg">
-							<p>Test which is a new approach to have all solutions</p>
-							<span class="time_date"> 11:01 AM | June 9</span>
-						</div>
-					</div>
-					<div class="incoming_msg">
-						<div class="incoming_msg_img">
-							<img src="https://ptetutorials.com/images/user-profile.png"
-								alt="sunil">
-						</div>
-						<div class="received_msg">
-							<div class="received_withd_msg">
-								<p>Test, which is a new approach to have</p>
-								<span class="time_date"> 11:01 AM | Yesterday</span>
-							</div>
-						</div>
-					</div>
-					<div class="outgoing_msg">
-						<div class="sent_msg">
-							<p>Apollo University, Delhi, India Test</p>
-							<span class="time_date"> 11:01 AM | Today</span>
-						</div>
-					</div>
-					<div class="incoming_msg">
-						<div class="incoming_msg_img">
-							<img src="https://ptetutorials.com/images/user-profile.png"
-								alt="sunil">
-						</div>
-						<div class="received_msg">
-							<div class="received_withd_msg">
-								<p>We work directly with our designers and suppliers, and
-									sell direct to you, which means quality, exclusive products, at
-									a price anyone can afford.</p>
-								<span class="time_date"> 11:01 AM | Today</span>
-							</div>
-						</div>
-					</div>
 				</div>
 				<div class="type_msg">
 					<div class="input_msg_write">
@@ -402,46 +328,6 @@
 	</div>
 	</form>
 
-	<div id="main-content" class="container">
-		<div class="row">
-			<div class="col-md-8">
-				<form class="form-inline">
-					<div class="form-group">
-						<label for="connect">Chat Application:</label>
-						<button id="connect" type="button">Start New Chat</button>
-						<button id="disconnect" type="button" disabled="disabled">End
-							Chat</button>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<table id="chat">
-					<thead>
-						<tr>
-							<th>Welcome user. Please enter you name</th>
-						</tr>
-					</thead>
-					<tbody id="helloworldmessage">
-					</tbody>
-				</table>
-			</div>
-			<div class="row">
-
-				<div class="col-md-6">
-					<form class="form-inline">
-						<div class="form-group">
-							<textarea id="userw" placeholder="Write your message here..."
-								required></textarea>
-						</div>
-						<button type="submit">Send</button>
-					</form>
-				</div>
-			</div>
-		</div>
-
-	</div>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -461,8 +347,13 @@
 		var ws;
 		connect();
 		function setConnected(connected) {
-			$("#connect").prop("disabled", connected);
-			$("#disconnect").prop("disabled", !connected);
+			if(!connected) {
+				$("#connect").addClass("selected");
+				$("#disconnect").removeClass("selected");
+			} else {
+				$("#disconnect").addClass("selected");
+				$("#connect").removeClass("selected");
+			}
 		}
 
 		function connect() {
@@ -498,6 +389,7 @@
 		}
 
 		function addMessageInHtml(json) {
+			console.log(json);	
 			let dt = new Date();
 			m = (dt.getMonth() + 1).toString().padStart(2, "0");
 			d = dt.getDate().toString().padStart(2, "0");
@@ -505,17 +397,27 @@
 			mi = dt.getMinutes().toString().padStart(2, "0");
 			se = dt.getSeconds().toString().padStart(2, "0");
 			let textarea = $("#content_msg");
-			
-			let content = `					<div class="incoming_msg">
+			let user = $("#user").val();
+			let content;
+			if (json.user == user) {
+			content = `					<div class="incoming_msg">
 						<div class="received_msg">
-							<div class="received_withd_msg"><span class="usern">${json.user}</span>
-								<p>${json.message}</p>
+							<div class="received_withd_msg">
+								<p><b>${json.user}:</b> ${json.message}</p>
 								<span class="time_date"> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</span>
 							</div>
 						</div>
 					</div>`
+			} else {
+				content = `					<div class="outgoing_msg">
+					<div class="sent_msg">
+					<p><b>${json.user}:</b> ${json.message}</p>
+					<span class="time_date"> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</span>
+				</div>
+			</div>`
+			}
 					
-			textarea.prepend(" " + content + "");
+			textarea.prepend(content);
 			//textarea.scrollTop = textarea[0].scrollHeight;
 		}
 
