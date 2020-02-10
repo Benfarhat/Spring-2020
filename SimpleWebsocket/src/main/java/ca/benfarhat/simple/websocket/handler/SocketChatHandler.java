@@ -34,6 +34,7 @@ public class SocketChatHandler extends TextWebSocketHandler {
 		case "sendMessage":
 			sessions.forEach((webSocketSession,username)->{
 				try {
+					System.out.println(payload);
 					webSocketSession.sendMessage(new TextMessage(payload));
 					messagesHistory.add(payload);
 				} catch (IOException e) {
@@ -43,6 +44,21 @@ public class SocketChatHandler extends TextWebSocketHandler {
 		break;
 		case "changeName":
 			sessions.replace(session, String.valueOf(jsonObject.get("user")));
+			List<String> usernames = new ArrayList<String>();
+			sessions.forEach((webSocketSession,username)->usernames.add(username));
+
+			sessions.forEach((webSocketSession,username)->{
+				try {
+					JSONObject response = new JSONObject();
+					response.append("action", "updateUsername");
+					response.append("usernames", usernames);
+					webSocketSession.sendMessage(new TextMessage(response.toString()));
+
+				} catch (IOException e) {
+					log.error(e.getMessage());
+				}	
+			});
+
 			break;
 		default:
 		}
