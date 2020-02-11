@@ -181,6 +181,15 @@
 	padding: 5px 10px 5px 12px;
 	width: 100%;
 }
+.received_witha_msg p {
+	background: #e74c3c none repeat scroll 0 0;
+	border-radius: 0 !important;
+	color: #fff;
+	font-size: 14px;
+	margin: 0;
+	padding: 5px 10px 5px 12px;
+	width: 100%;
+}
 
 .time_date {
 	color: #747474;
@@ -266,6 +275,10 @@
     color: white;
     border-radius: 8px 8px 0 0;
     }
+ .usernameList{
+ padding: 6px 16px;
+ border-bottom: 1px solid #ebebeb;
+ }
 </style>
 <title>Alfred Hitchcock</title>
 </head>
@@ -280,44 +293,12 @@
 				<div class="headind_username">
 					<div class="username_bar">
 						<div class="stylish-input-group">
-							<input id="user" type="text" class="user-bar" placeholder="Username" value="John Doe" required>
+							<input id="user" type="text" class="user-bar" placeholder="Username" value="" autocomplete="off" required>
 						</div>
 					</div>
 				</div>
 				
 				<div id="userList" class="inbox_chat scroll">
-				
-				<!-- Sur le coup on a pas forcement besoin de se connecter ou deconnecter
-				ce qui serait interessant c'est de permettre la connexion a plusieurs salons
-				// TODO
-					<div id="connect" class="chat_list selected">
-						<div class="chat_people">
-							<div class="chat_img">
-								<i class="fa fa-play" aria-hidden="true"></i>
-							</div>
-							<div class="chat_ib">
-								<h5>
-									CONNEXION <span id="connected" class="connected"></span>
-								</h5>
-								<p>Activer la connexion</p>
-							</div>
-						</div>
-					</div>
-				
-					<div id="disconnect" class="chat_list">
-						<div class="chat_people">
-							<div class="chat_img">
-								<i class="fa fa-stop" aria-hidden="true"></i>
-							</div>
-							<div class="chat_ib">
-								<h5>
-									DECONNEXION
-								</h5>
-								<p>Se deconnecter</p>
-							</div>
-						</div>
-					</div>
-					 -->
 
 				</div>
 				
@@ -328,7 +309,7 @@
 				</div>
 				<div class="type_msg">
 					<div class="input_msg_write">
-						<input id="message" type="text" class="write_msg" placeholder="Type a message" required/>
+						<input id="message" type="text" autocomplete="off" class="write_msg" placeholder="Votre message ..." required/>
 						<button id="send" type="submit" class="msg_send_btn">
 							<i class="fa fa-paper-plane" aria-hidden="true"></i>
 						</button>
@@ -369,25 +350,56 @@
 
 		function connect() {
 			ws = new WebSocket('ws://localhost:8081/chat');
-			// Après la connexion j'envoi l'username qui sera attribué à la session au niveau du ws
-			var data = JSON.stringify({
-				'action': 'changeName',
-				'user' : $("#user").val()
-			})
-			// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
-			if(ws.readyState == 1) {
-				ws.send(data);
-			}
-			
+	
 			ws.onmessage = function(data) {
 				var json = JSON.parse(data.data)
 				if(json.action == "sendMessage")
 					addMessageInHtml(json);
-				if(json.action == "updateUsername")
+				if(json.action == "updateUsername") 
 					addUserInHtml(json);
+				if(json.action == "information")
+					addInformationInHtml(json);
 			}
+			
 			setConnected(true);
+			
 			console.log("Websocket is in connected state");
+		    waitForSocketConnection(ws, function(){
+		    	sendName();
+		    });
+		    
+		    alarme = false;
+		    setInterval(() => {
+		    	if (ws.readyState != 1) {
+		    		if(alarme == false) {
+		    			displayAlertConnectionLost();
+		    			alarme = true;
+		    		} 
+		    	} else {
+		    		if (alarme == true) {
+		    			removeAlertConnectionLost();
+		    			alarme = false;
+		    		}
+		    	}
+		      }, 1000);
+		}
+		
+
+		// Make the function wait until the connection is made...
+		function waitForSocketConnection(socket, callback){
+		    setTimeout(
+		        function () {
+		            if (socket.readyState === 1) {
+		                console.log("Connection is made")
+		                if (callback != null){
+		                    callback();
+		                }
+		            } else {
+		                console.log("wait for connection...")
+		                waitForSocketConnection(socket, callback);
+		            }
+
+		        }, 5); // wait 5 milisecond for the connection...
 		}
 
 		function disconnect() {
@@ -421,8 +433,9 @@
 			})
 			// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
 			if(ws.readyState == 1) {
+				console.log(data)
 				ws.send(data);
-			}
+			} 
 			
 		}	
 		
@@ -462,17 +475,36 @@
 			//textarea.scrollTop = textarea[0].scrollHeight;
 		}
 
+		function addInformationInHtml(json) {
+			let dt = new Date();
+			m = (dt.getMonth() + 1).toString().padStart(2, "0");
+			d = dt.getDate().toString().padStart(2, "0");
+			ho = dt.getHours().toString().padStart(2, "0");
+			mi = dt.getMinutes().toString().padStart(2, "0");
+			se = dt.getSeconds().toString().padStart(2, "0");
+			let textarea = $("#content_msg");
+			let user = $("#user").val();
+			let content;
+			content = `					<span class="time_date"> ${json.message}</span>
+			<span class="time_date"> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</span>`
+			
+					
+			textarea.prepend(content);
+			//textarea.scrollTop = textarea[0].scrollHeight;
+		}
+
 		function addUserInHtml(json) {
-			return true;
+			//return true;
 			console.log("Mise à jour de la liste des utilisateurs.");	
 			let userList = $("#userList");
 			let user = $("#user").val();
 			let content;
 			let html = "";
 			
-			let usernames = json.usernames.slice(1,-1).split(',');
+			let usernames = json.usernames[0];
+			console.log(usernames);
 			for (i = 0; i < usernames.length; i++) {
-				html += '<div class="usernameList">' + usernames[i] + '</div>';
+				html += '<div class="usernameList"><i class="fa fa-user fa-border" aria-hidden="true"></i>&nbsp;&nbsp;' + usernames[i] + '</div>';
 			};
 			userList.html(html);
 		}
@@ -502,6 +534,29 @@
 			  return "";
 			}
 		
+		function displayAlertConnectionLost() {
+			let dt = new Date();
+			m = (dt.getMonth() + 1).toString().padStart(2, "0");
+			d = dt.getDate().toString().padStart(2, "0");
+			ho = dt.getHours().toString().padStart(2, "0");
+			mi = dt.getMinutes().toString().padStart(2, "0");
+			se = dt.getSeconds().toString().padStart(2, "0");
+			
+			$("#content_msg").prepend(`					<div class="alert_connection incoming_msg">
+					<div class="received_msg">
+					<div class="received_witha_msg" style="">
+						<p><b>Info:</b> La connexion semble avoir été perdue avec le serveur, veuillez actualiser la page ou vérifier l'état du serveur</p>
+						<span class="time_date"> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</span>
+					</div>
+				</div>
+			</div>`);
+
+		}
+		function removeAlertConnectionLost(){
+			$( ".alert_connection.incoming_msg" ).remove();
+		}
+		
+		
 		$(function() {
 			$("#user").val(getCookie("username"));
 			$("form").on('submit', function(e) {
@@ -517,17 +572,18 @@
 				sendData();
 			});
             $("#user").change(function() { 
-            	saveNameInCookie();
-            	sendName();
+            	//saveNameInCookie();
+            	//sendName();
             }); 
 		});
 		
 	    var preventSubmitAndSend = function(event) {
 	        if(event.keyCode == 13) {
 	            event.preventDefault();
+	            saveNameInCookie();
 	            sendName();
 	            return false;
-	        }
+	        } 
 	    }		
 	    var preventSubmit = function(event) {
 	        if(event.keyCode == 13) {
@@ -538,6 +594,8 @@
 	    $("#user").keypress(preventSubmit);
 	    $("#user").keydown(preventSubmit);
 	    $("#user").keyup(preventSubmitAndSend);
+	    
+	    
 	    
 	</script>
 </body>
