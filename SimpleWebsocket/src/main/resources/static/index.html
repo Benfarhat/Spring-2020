@@ -12,13 +12,322 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
-/* Pour nos styles perso */
-/*---------chat window---------------*/
+
+@import url(//fonts.googleapis.com/css?family=Oswald:300);
+body, .btn
+ {
+font-family:Oswald, tahoma,verdana,serif;
+font-size:0.96em
+}
+
+
+
+/*
+ * jQuery CSSEmoticons plugin 0.2.9
+ *
+ * Copyright (c) 2010 Steve Schwartz (JangoSteve)
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ *
+ * Date: Sun Oct 22 1:00:00 2010 -0500
+ */
+ 
+ /* Basic styles for emoticons */
+span.css-emoticon {
+  font-family: "Trebuchet MS"; /* seems to give the best and most consistent emoticon appearance */
+  font-size: 0.65em;
+  font-weight: bold;
+  color: #000000;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: middle;
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  width: 1.54em; /* note that this is a multiple of this span's font-size, not containing text font-size */
+  height: 1.54em; /* so, relative to containing text, width and height are 0.9 x 1.6 = 1.44em */
+  text-align: center;
+  padding: 0;
+  line-height: 1.34em;
+  -moz-border-radius: 1.54em;
+  -webkit-border-radius: 1.54em;
+  border-radius: 1.54em;
+  -moz-box-shadow: 1px -1px 2px rgba(0,0,0,0.5);
+  -webkit-box-shadow: 1px -1px 2px rgba(0,0,0,0.5);
+  box-shadow: 1px -1px 2px rgba(0,0,0,0.5);
+  border: 1px solid rgba(0,0,0,0.25);
+  background-color: #ffcc00;
+  background-image: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(0.41, rgb(255,204,0)),
+    color-stop(0.56, rgb(255,221,85)),
+    color-stop(1, rgb(255,238,170))
+  );
+  background-image: -moz-linear-gradient(
+    center right,
+    rgb(255,204,0) 41%,
+    rgb(255,221,85) 56%,
+    rgb(255,238,170) 100%
+  );
+  -webkit-transition-property:color, background, transform;  
+  -webkit-transition-duration: 1s, 1s;  
+  -webkit-transition-timing-function: linear, ease-in;
+}
+
+/* Styles for two-character emoticons that need more letter-spacing for proportionality */
+span.css-emoticon.spaced-emoticon {
+  padding-left: 0.2em;
+  width: 1.34em;
+  letter-spacing: 0.2em;
+}
+
+/* This is a dirty dirty hack, because webkit doesn't properly do the padding+width=total-width as it should
+   I think the width of the border may be throwing things off, because it's more noticable for small icons */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  span.css-emoticon.spaced-emoticon {
+    width: 1.4em;
+  }
+}
+
+/* Styles for emoticons that need to have smaller characters to fit inside the circle */
+span.css-emoticon.small-emoticon {
+  font-size: 0.55em;
+  width: 1.82em;
+  height: 1.82em;
+  line-height: 1.72em;
+  -moz-border-radius: 1.82em;
+  -webkit-border-radius: 1.82em;
+  border-radius: 1.82em;
+}
+
+span.css-emoticon.small-emoticon.spaced-emoticon {
+  padding-left: 0;
+  width: 1.82em;
+  letter-spacing: 0.1em;
+}
+
+/* Styles for additional colors */
+span.css-emoticon.red-emoticon {
+  background-color: #eb0542;
+  background-image: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(0.41, rgb(235,5,66)),
+    color-stop(0.56, rgb(235,38,90)),
+    color-stop(1, rgb(250,55,110))
+  );
+  background-image: -moz-linear-gradient(
+    center right,
+    rgb(235,5,66) 41%,
+    rgb(235,38,90) 56%,
+    rgb(250,55,110) 100%
+  );
+}
+
+span.css-emoticon.pink-emoticon {
+  background-color: #ff8fd4;
+  background-image: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(0.41, rgb(255,143,212)),
+    color-stop(0.56, rgb(255,153,216)),
+    color-stop(1,    rgb(255,173,225))
+  );
+  background-image: -moz-linear-gradient(
+    center right,
+    rgb(255,143,212) 41%,
+    rgb(255,153,216) 56%,
+    rgb(255,173,225) 100%
+  );
+}
+
+/* styles for emoticons that need no rotation, like O_o */
+span.css-emoticon.no-rotate { 
+  transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  font-size: 0.45em;
+  width: 2.2em;
+  height: 2.2em;
+  line-height: 1.9em;
+  -moz-border-radius: 2.2em;
+  -webkit-border-radius: 2.2em;
+  border-radius: 2.2em;
+  background-image: -webkit-gradient(
+    linear,
+    right bottom,
+    right top,
+    color-stop(0.41, rgb(255,204,0)),
+    color-stop(0.56, rgb(255,221,85)),
+    color-stop(1, rgb(255,238,170))
+  );
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(255,204,0) 41%,
+    rgb(255,221,85) 56%,
+    rgb(255,238,170) 100%
+  );
+}
+
+span.css-emoticon.no-rotate.red-emoticon {
+  background-image: -webkit-gradient(
+    linear,
+    right bottom,
+    right top,
+    color-stop(0.41, rgb(235,5,66)),
+    color-stop(0.56, rgb(235,38,90)),
+    color-stop(1, rgb(250,55,110))
+  );
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(235,5,66) 41%,
+    rgb(235,38,90) 56%,
+    rgb(250,55,110) 100%
+  );
+}
+
+span.css-emoticon.no-rotate.pink-emoticon {
+  background-image: -webkit-gradient(
+    linear,
+    right bottom,
+    right top,
+    color-stop(0.41, rgb(255,143,212)),
+    color-stop(0.56, rgb(255,153,216)),
+    color-stop(1,    rgb(255,173,225))
+  );
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(255,143,212) 41%,
+    rgb(255,153,216) 56%,
+    rgb(255,173,225) 100%
+  );
+}
+
+/* Styles for emoticons that need to be rotated counter-clockwise, like <3 */
+span.css-emoticon.counter-rotated { 
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -moz-box-shadow: -1px 1px 2px rgba(0,0,0,0.5);
+  -webkit-box-shadow: -1px 1px 2px rgba(0,0,0,0.5);
+  box-shadow: -1px 1px 2px rgba(0,0,0,0.5);
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(0.41, rgb(255,204,0)),
+    color-stop(0.56, rgb(255,221,85)),
+    color-stop(1, rgb(255,238,170))
+  );
+  background-image: -moz-linear-gradient(
+    center left,
+    rgb(255,204,0) 41%,
+    rgb(255,221,85) 56%,
+    rgb(255,238,170) 100%
+  );
+}
+
+span.css-emoticon.counter-rotated.red-emoticon {
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(0.41, rgb(235,5,66)),
+    color-stop(0.56, rgb(235,38,90)),
+    color-stop(1, rgb(250,55,110))
+  );
+  background-image: -moz-linear-gradient(
+    center left,
+    rgb(235,5,66) 41%,
+    rgb(235,38,90) 56%,
+    rgb(250,55,110) 100%
+  );
+}
+
+span.css-emoticon.counter-rotated.pink-emoticon {
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(0.41, rgb(255,143,212)),
+    color-stop(0.56, rgb(255,153,216)),
+    color-stop(1,    rgb(255,173,225))
+  );
+  background-image: -moz-linear-gradient(
+    center left,
+    rgb(255,143,212) 41%,
+    rgb(255,153,216) 56%,
+    rgb(255,173,225) 100%
+  );
+}
+
+/* Styles for animated states */
+span.css-emoticon.un-transformed-emoticon, span.css-emoticon.animated-emoticon:hover {
+    /* font-size: inherit;
+    font-weight: inherit;
+    vertical-align: inherit;
+    line-height: inherit;
+    font-family: inherit; */
+    letter-spacing: inherit;
+    color: inherit;
+    overflow: visible;
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    background: none;
+    background-image: none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    border-color: transparent;
+}
+
+span.css-emoticon.nintendo-controller {
+  font-size: .8em;
+  height: 1.2em;
+  line-height: 1em;
+  width: 2.7em;
+  vertical-align: bottom;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  background: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0.09, rgb(116,121,140)),
+      color-stop(0.55, rgb(165,170,189))
+  );
+  background: -moz-linear-gradient(
+      center bottom,
+      rgb(116,121,140) 9%,
+      rgb(165,170,189) 55%
+  );
+}
+
+
+
+
+
 .container{
     max-width:900px;
 }
 .inbox_people {
-	background: #fff;
+	background: #212121;
+	color: #fff;
 	float: left;
 	overflow: hidden;
 	width: 18%;
@@ -54,6 +363,7 @@
 	border-bottom: 1px solid #c4c4c4;
 	background-color: #16a085;
 	color: #fff;
+	font-weight:bold;
 }
 .headind_username {
 	padding: 10px 29px 10px 20px;
@@ -75,13 +385,14 @@
 	width: 100%;
 	padding: 2px 0 4px 6px;
 	background: none;
+ 	color:#eeeeee;
 }
 
 .username_bar .input-group-addon button {
 	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
 	border: medium none;
 	padding: 0;
-	color: #707070;
+	color: #ddd;
 	font-size: 18px;
 }
 
@@ -168,8 +479,11 @@
 .received_msg {
 	display: inline-block;
 	padding: 0 0 0 10px;
+	padding:0;
 	vertical-align: top;
 	width: 95%;
+	margin-bottom:10px;
+	border-bottom:1px solid #f5f5f5;
 }
 
 .received_withd_msg p {
@@ -193,6 +507,12 @@
 
 .time_date {
 	color: #747474;
+	display: block;
+	font-size: 12px;
+	margin: 8px 0 0;
+}
+.time_date2 {
+	color: #fff;
 	display: block;
 	font-size: 12px;
 	margin: 8px 0 0;
@@ -221,7 +541,7 @@
 
 .outgoing_msg {
 	overflow: hidden;
-	margin: 26px 0 26px;
+	margin: 16px 0 10px;
 }
 
 .sent_msg {
@@ -276,8 +596,10 @@
     border-radius: 8px 8px 0 0;
     }
  .usernameList{
- padding: 6px 16px;
- border-bottom: 1px solid #ebebeb;
+	padding: 6px 16px;
+	border-bottom: 1px solid #343434;
+	color:#eeeeee;
+	word-break: break-all;
  }
 </style>
 <title>Alfred Hitchcock</title>
@@ -289,7 +611,7 @@
 		
 			<!--  Fenetre de gauche -->
 			<div class="inbox_people">
-				<div class="title">WS CHAT</div>
+				<div class="title"><i class="fa fa-comments" aria-hidden="true"></i> WS CHAT</div>
 				<div class="headind_username">
 					<div class="username_bar">
 						<div class="stylish-input-group">
@@ -309,7 +631,7 @@
 				</div>
 				<div class="type_msg">
 					<div class="input_msg_write">
-						<input id="message" type="text" autocomplete="off" class="write_msg" placeholder="Votre message ..." required/>
+						<input id="message" type="text" autocomplete="off" class="write_msg" placeholder="Votre message ..." />
 						<button id="send" type="submit" class="msg_send_btn">
 							<i class="fa fa-paper-plane" aria-hidden="true"></i>
 						</button>
@@ -327,6 +649,23 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
+    
+    /*
+     * jQuery CSSEmoticons plugin 0.2.9
+     *
+     * Copyright (c) 2010 Steve Schwartz (JangoSteve)
+     *
+     * Dual licensed under the MIT and GPL licenses:
+     *   http://www.opensource.org/licenses/mit-license.php
+     *   http://www.gnu.org/licenses/gpl.html
+     *
+     * Date: Sun Oct 22 1:00:00 2010 -0500
+     */(function(a){a.fn.emoticonize=function(m){var c=a.extend({},a.fn.emoticonize.defaults,m);var d=[")","(","*","[","]","{","}","|","^","<",">","\\","?","+","=","."];var l=[":-)",":o)",":c)",":^)",":-D",":-(",":-9",";-)",":-P",":-p",":-Þ",":-b",":-O",":-/",":-X",":-#",":'(","B-)","8-)",";*(",":-*",":-\\","?-)",": )",": ]","= ]","= )","8 )",": }",": D","8 D","X D","x D","= D",": (",": [",": {","= (","; )","; ]","; D",": P",": p","= P","= p",": b",": Þ",": O","8 O",": /","= /",": S",": #",": X","B )",": |",": \\","= \\",": *",": &gt;",": &lt;"];var j=[":)",":]","=]","=)","8)",":}",":D",":(",":[",":{","=(",";)",";]",";D",":P",":p","=P","=p",":b",":Þ",":O",":/","=/",":S",":#",":X","B)",":|",":\\","=\\",":*",":&gt;",":&lt;"];var h={"&gt;:)":{cssClass:"red-emoticon small-emoticon spaced-emoticon"},"&gt;;)":{cssClass:"red-emoticon small-emoticon spaced-emoticon"},"&gt;:(":{cssClass:"red-emoticon small-emoticon spaced-emoticon"},"&gt;: )":{cssClass:"red-emoticon small-emoticon"},"&gt;; )":{cssClass:"red-emoticon small-emoticon"},"&gt;: (":{cssClass:"red-emoticon small-emoticon"},";(":{cssClass:"red-emoticon spaced-emoticon"},"&lt;3":{cssClass:"pink-emoticon counter-rotated"},O_O:{cssClass:"no-rotate"},o_o:{cssClass:"no-rotate"},"0_o":{cssClass:"no-rotate"},O_o:{cssClass:"no-rotate"},T_T:{cssClass:"no-rotate"},"^_^":{cssClass:"no-rotate"},"O:)":{cssClass:"small-emoticon spaced-emoticon"},"O: )":{cssClass:"small-emoticon"},"8D":{cssClass:"small-emoticon spaced-emoticon"},XD:{cssClass:"small-emoticon spaced-emoticon"},xD:{cssClass:"small-emoticon spaced-emoticon"},"=D":{cssClass:"small-emoticon spaced-emoticon"},"8O":{cssClass:"small-emoticon spaced-emoticon"},"[+=..]":{cssClass:"no-rotate nintendo-controller"}};var f=new RegExp("(\\"+d.join("|\\")+")","g");var n="(^|[\\s\\0])";for(var g=l.length-1;g>=0;--g){l[g]=l[g].replace(f,"\\$1");l[g]=new RegExp(n+"("+l[g]+")","g")}for(var g=j.length-1;g>=0;--g){j[g]=j[g].replace(f,"\\$1");j[g]=new RegExp(n+"("+j[g]+")","g")}for(var k in h){h[k].regexp=k.replace(f,"\\$1");h[k].regexp=new RegExp(n+"("+h[k].regexp+")","g")}var e="span.css-emoticon";if(c.exclude){e+=","+c.exclude}var b=e.split(",");return this.not(e).each(function(){var o=a(this);var i="css-emoticon";if(c.animate){i+=" un-transformed-emoticon animated-emoticon"}for(var p in h){specialCssClass=i+" "+h[p].cssClass;o.html(o.html().replace(h[p].regexp,"$1<span class='"+specialCssClass+"'>$2</span>"))}a(l).each(function(){o.html(o.html().replace(this,"$1<span class='"+i+"'>$2</span>"))});a(j).each(function(){o.html(o.html().replace(this,"$1<span class='"+i+" spaced-emoticon'>$2</span>"))});a.each(b,function(q,r){o.find(a.trim(r)+" span.css-emoticon").each(function(){a(this).replaceWith(a(this).text())})});if(c.animate){setTimeout(function(){a(".un-transformed-emoticon").removeClass("un-transformed-emoticon")},c.delay)}})};a.fn.unemoticonize=function(b){var c=a.extend({},a.fn.emoticonize.defaults,b);return this.each(function(){var d=a(this);d.find("span.css-emoticon").each(function(){var e=a(this);if(c.animate){e.addClass("un-transformed-emoticon");setTimeout(function(){e.replaceWith(e.text())},c.delay)}else{e.replaceWith(e.text())}})})};a.fn.emoticonize.defaults={animate:true,delay:500,exclude:"pre,code,.no-emoticons"}})(jQuery);
+
+
+	</script>
+	<script type="text/javascript">
+	
 		const days = [
 			  'Sun',
 			  'Mon',
@@ -338,6 +677,9 @@
 			];
 		var ws;
 		connect();
+		/**
+		* Récupérer l'état de la connexion // Non utilisée
+		*/
 		function setConnected(connected) {
 			if(!connected) {
 				$("#connect").addClass("selected");
@@ -348,8 +690,15 @@
 			}
 		}
 
+		/**
+		* Connection au serveur
+		*/
 		function connect() {
-			ws = new WebSocket('ws://localhost:8081/chat');
+			// Pour ne pas avoir a suivre constamment les properties côté serveur
+			protocol = location.protocol; 
+            domain = location.hostname; 
+            port = location.port; 
+			ws = new WebSocket('ws://' + domain + ':' + port + '/chat');
 	
 			ws.onmessage = function(data) {
 				var json = JSON.parse(data.data)
@@ -385,12 +734,16 @@
 		}
 		
 
-		// Make the function wait until the connection is made...
+		/**
+		* Attente que la connection soit établie
+		*/
 		function waitForSocketConnection(socket, callback){
 		    setTimeout(
 		        function () {
 		            if (socket.readyState === 1) {
 		                console.log("Connection is made")
+		                
+						addInformationInHtml({message:"Bienvenu! Vous êtes connecté"});
 		                if (callback != null){
 		                    callback();
 		                }
@@ -402,6 +755,9 @@
 		        }, 5); // wait 5 milisecond for the connection...
 		}
 
+		/**
+		* Deconnection du serveur // non utilisée
+		*/
 		function disconnect() {
 			if (ws != null) {
 				ws.close();
@@ -410,6 +766,9 @@
 			console.log("Websocket is in disconnected state");
 		}
 
+		/**
+		* Envoi d'un message de chat
+		*/
 		function sendData() {
 			let user = $("#user").val();
 			let msg = $("#message").val();
@@ -422,10 +781,14 @@
 			// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
 			if(msg !== null && msg !== '' && user !== null && user !== '' && ws.readyState == 1) {
 				ws.send(data);
+				$("#message").val("");
 			}
 					
 		}
 		
+		/**
+		* Transmission du pseudonyme
+		*/
 		function sendName() {
 			var data = JSON.stringify({
 				'action': 'changeName',
@@ -433,16 +796,21 @@
 			})
 			// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
 			if(ws.readyState == 1) {
-				console.log(data)
 				ws.send(data);
 			} 
 			
 		}	
 		
+		/**
+		* Sauvegarde du pseudonyme dans un cookie
+		*/
 		function saveNameInCookie() {
 			setCookie("username", $("#user").val(), 90);
 		}
 
+		/**
+		* Affichage des messages de chat recus
+		*/
 		function addMessageInHtml(json) {
 			let dt = new Date();
 			m = (dt.getMonth() + 1).toString().padStart(2, "0");
@@ -458,7 +826,7 @@
 						<div class="received_msg">
 							<div class="received_withd_msg">
 								<p><b>${json.user}:</b> ${json.message}</p>
-								<span class="time_date"> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</span>
+								<span class="time_date"><small> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</small></span>
 							</div>
 						</div>
 					</div>`
@@ -466,7 +834,7 @@
 				content = `					<div class="outgoing_msg">
 					<div class="sent_msg">
 					<p><b>${json.user}:</b> ${json.message}</p>
-					<span class="time_date"> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</span>
+					<span class="time_date"><small> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</small></span>
 				</div>
 			</div>`
 			}
@@ -475,6 +843,9 @@
 			//textarea.scrollTop = textarea[0].scrollHeight;
 		}
 
+		/**
+		* Affichage des informations
+		*/
 		function addInformationInHtml(json) {
 			let dt = new Date();
 			m = (dt.getMonth() + 1).toString().padStart(2, "0");
@@ -485,31 +856,33 @@
 			let textarea = $("#content_msg");
 			let user = $("#user").val();
 			let content;
-			content = `					<span class="time_date"> ${json.message}</span>
-			<span class="time_date"> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</span>`
+			content = `					<div class="received_msg" style="padding:4px 16px;background-color:#3498db;margin-top:4px;margin-bottom:4px;width:100%"><span class="time_date2"> ${json.message}</span>
+			<span class="time_date2" style="margin-top:0;border-top:1px solid #eee;"><small> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</small></span></div>`
 			
 					
 			textarea.prepend(content);
 			//textarea.scrollTop = textarea[0].scrollHeight;
 		}
 
+		/**
+		* Affichage de la liste des utilisateurs
+		*/
 		function addUserInHtml(json) {
-			//return true;
-			console.log("Mise à jour de la liste des utilisateurs.");	
 			let userList = $("#userList");
 			let user = $("#user").val();
 			let content;
 			let html = "";
 			
 			let usernames = json.usernames[0];
-			console.log(usernames);
 			for (i = 0; i < usernames.length; i++) {
 				html += '<div class="usernameList"><i class="fa fa-user fa-border" aria-hidden="true"></i>&nbsp;&nbsp;' + usernames[i] + '</div>';
 			};
 			userList.html(html);
 		}
 
-		// Fonction utile
+		/**
+		* Fonction utile: Ecriture / Création d'un cookie
+		*/
 		function setCookie(cname, cvalue, exdays) {
 			  var d = new Date();
 			  d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -517,7 +890,9 @@
 			  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 			}
 		
-		// Fonction utile
+		/**
+		* Fonction utile: Lecture d'un cookie
+		*/
 		function getCookie(cname) {
 			  var name = cname + "=";
 			  var decodedCookie = decodeURIComponent(document.cookie);
@@ -534,6 +909,9 @@
 			  return "";
 			}
 		
+		/**
+		* Affichage des messages de perte de connexion
+		*/
 		function displayAlertConnectionLost() {
 			let dt = new Date();
 			m = (dt.getMonth() + 1).toString().padStart(2, "0");
@@ -546,12 +924,16 @@
 					<div class="received_msg">
 					<div class="received_witha_msg" style="">
 						<p><b>Info:</b> La connexion semble avoir été perdue avec le serveur, veuillez actualiser la page ou vérifier l'état du serveur</p>
-						<span class="time_date"> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</span>
+						<span class="time_date"><small> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</small></span>
 					</div>
 				</div>
 			</div>`);
 
 		}
+		
+		/**
+		* Suppression des messages de perte de connexion
+		*/
 		function removeAlertConnectionLost(){
 			$( ".alert_connection.incoming_msg" ).remove();
 		}
@@ -574,9 +956,14 @@
             $("#user").change(function() { 
             	//saveNameInCookie();
             	//sendName();
-            }); 
+            });
+            $('#content_msg').emoticonize();
 		});
 		
+		/**
+		* Ignorer le comportement par defaut, l'appui sur la touche enter
+		* Sauvegarde dans un cookie et envoi du pseudonyme
+		*/
 	    var preventSubmitAndSend = function(event) {
 	        if(event.keyCode == 13) {
 	            event.preventDefault();
@@ -584,7 +971,11 @@
 	            sendName();
 	            return false;
 	        } 
-	    }		
+	    }
+		
+		/**
+		* Ignorer le comportement par defaut, l'appui sur la touche enter
+		*/
 	    var preventSubmit = function(event) {
 	        if(event.keyCode == 13) {
 	            event.preventDefault();

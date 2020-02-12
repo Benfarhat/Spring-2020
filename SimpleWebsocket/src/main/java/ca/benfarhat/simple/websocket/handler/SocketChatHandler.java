@@ -23,7 +23,6 @@ public class SocketChatHandler extends TextWebSocketHandler {
 	private static final Logger log = LoggerFactory.getLogger(SocketChatHandler.class);
 	private Map<WebSocketSession, String> sessions = new HashMap<>();
 	private List<String> messagesHistory = new ArrayList<>();
-	private List<String> usernames = new ArrayList<String>();
 
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) {
@@ -38,7 +37,6 @@ public class SocketChatHandler extends TextWebSocketHandler {
 		case "sendMessage":
 			sessions.forEach((webSocketSession, username) -> {
 				try {
-					System.out.println(payload);
 					webSocketSession.sendMessage(new TextMessage(payload));
 					messagesHistory.add(payload);
 				} catch (IOException e) {
@@ -59,7 +57,9 @@ public class SocketChatHandler extends TextWebSocketHandler {
 				}
 				
 			} else {
-				broadcastInformation(sessions, oldName + " a changé son nickname en " + newName);
+				if(!oldName.equals(newName)) {
+					broadcastInformation(sessions, oldName + " a changé son nickname en " + newName);
+				}
 			}
 
 			break;
@@ -70,7 +70,7 @@ public class SocketChatHandler extends TextWebSocketHandler {
 
 	private void sendUserList() {
 
-		usernames = sessions.entrySet().stream().filter(session -> !Strings.isEmpty(session.getValue()))
+		List<String> usernames = sessions.entrySet().stream().filter(session -> !Strings.isEmpty(session.getValue()))
 				.map(Map.Entry::getValue).collect(Collectors.toList());
 
 		sessions.forEach((webSocketSession, username) -> {
