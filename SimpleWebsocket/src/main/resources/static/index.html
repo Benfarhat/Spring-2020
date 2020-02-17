@@ -366,9 +366,10 @@ span.css-emoticon.nintendo-controller {
 	font-weight:bold;
 }
 .headind_username {
-	padding: 10px 29px 10px 20px;
+	padding: 0;
 	overflow: hidden;
-	border-bottom: 1px solid #c4c4c4;
+	border-bottom: 1px solid #777;
+	margin-bottom: 8px;
 }
 
 .recent_heading h4 {
@@ -380,10 +381,11 @@ span.css-emoticon.nintendo-controller {
 
 .username_bar input {
 	outline: none;
-	border: 1px solid #cdcdcd;
+	border: 1px solid rgba(255,255,255,.04);
 	border-width: 0 0 1px 0;
 	width: 100%;
 	padding: 2px 0 4px 6px;
+	padding: 10px 29px 10px 20px;
 	background: none;
  	color:#eeeeee;
 }
@@ -524,7 +526,7 @@ span.css-emoticon.nintendo-controller {
 
 .mesgs{
 	float: left;
-	padding: 30px 15px 0 25px;
+	padding: 0 0 0 25px;
 	width:82%;
 }
 
@@ -549,13 +551,17 @@ span.css-emoticon.nintendo-controller {
 	width: 66%;
 }
 
+.input_msg_write{
+padding-right:12px;
+}
 .input_msg_write input {
 	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
 	border: medium none;
 	color: #4c4c4c;
 	font-size: 15px;
 	min-height: 48px;
-	width: 100%;
+	width: 98%;
+	padding-right: 24px;
 	outline:none;
 }
 
@@ -573,7 +579,7 @@ span.css-emoticon.nintendo-controller {
 	font-size: 15px;
 	height: 33px;
 	position: absolute;
-	right: 0;
+	right: 12px;
 	top: 11px;
 	width: 33px;
 }
@@ -597,9 +603,10 @@ span.css-emoticon.nintendo-controller {
     }
  .usernameList{
 	padding: 6px 16px;
-	border-bottom: 1px solid #343434;
+	border-bottom: 1px solid #777;
 	color:#eeeeee;
 	word-break: break-all;
+	padding-bottom: 8px;
  }
 </style>
 <title>Alfred Hitchcock</title>
@@ -610,8 +617,8 @@ span.css-emoticon.nintendo-controller {
 		<div class="inbox_msg">
 		
 			<!--  Fenetre de gauche -->
-			<div class="inbox_people">
-				<div class="title"><i class="fa fa-comments" aria-hidden="true"></i> WS CHAT</div>
+			<div class="inbox_people bg-dark text-white">
+				<div class="title bg-danger text-white border-0"><i class="fa fa-comments" aria-hidden="true"></i> WS CHAT</div>
 				<div class="headind_username">
 					<div class="username_bar">
 						<div class="stylish-input-group">
@@ -825,7 +832,7 @@ span.css-emoticon.nintendo-controller {
 			content = `					<div class="incoming_msg">
 						<div class="received_msg">
 							<div class="received_withd_msg">
-								<p><b>${json.user}:</b> ${json.message}</p>
+								<p class="p-2 mb-2 bg-success text-white"><span class="text-capitalize font-weight-bolder">${json.user}:</span> ${json.message}</p>
 								<span class="time_date"><small> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</small></span>
 							</div>
 						</div>
@@ -833,14 +840,13 @@ span.css-emoticon.nintendo-controller {
 			} else {
 				content = `					<div class="outgoing_msg">
 					<div class="sent_msg">
-					<p><b>${json.user}:</b> ${json.message}</p>
+					<p class="p-2 mb-2 bg-info text-white"><span class="text-capitalize font-weight-bolder">${json.user}:</span> ${json.message}</p>
 					<span class="time_date"><small> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</small></span>
 				</div>
 			</div>`
 			}
-					
-			textarea.prepend(content);
-			//textarea.scrollTop = textarea[0].scrollHeight;
+			textarea.append(content);
+			textarea.scrollTop(function() { return this.scrollHeight; });
 		}
 
 		/**
@@ -854,14 +860,13 @@ span.css-emoticon.nintendo-controller {
 			mi = dt.getMinutes().toString().padStart(2, "0");
 			se = dt.getSeconds().toString().padStart(2, "0");
 			let textarea = $("#content_msg");
-			let user = $("#user").val();
 			let content;
-			content = `					<div class="received_msg" style="padding:4px 16px;background-color:#3498db;margin-top:4px;margin-bottom:4px;width:100%"><span class="time_date2"> ${json.message}</span>
+			content = `					<div class="received_msg p-2 mb-2 bg-warning text-white" style="width:100%"><span class="time_date2"> ${json.message}</span>
 			<span class="time_date2" style="margin-top:0;border-top:1px solid #eee;"><small> ${ho}:${mi}:${se} | ${days[dt.getDay()]} - ${d}/${m}/${dt.getFullYear()}</small></span></div>`
 			
 					
-			textarea.prepend(content);
-			//textarea.scrollTop = textarea[0].scrollHeight;
+			textarea.append(content);
+			textarea.scrollTop(function() { return this.scrollHeight; });
 		}
 
 		/**
